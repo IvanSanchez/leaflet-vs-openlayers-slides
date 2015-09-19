@@ -1,0 +1,1161 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Leaflet vs OL3</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+		<style>
+
+		.reveal section img.logo {
+			height: 1em;
+			width: 1em;
+			vertical-align: middle;
+			margin:0;
+			border: none;
+		}
+
+		.reveal section h1 img.logo {
+			height: 3em;
+			width: 3em;
+			vertical-align: middle;
+			border: none;
+		}
+
+
+		.reveal .slide-background {
+/* 			background: linear-gradient(90deg, #4a9634, #4a9634 35%, #1F6B75 65%,#1F6B75); */
+			background: linear-gradient(90deg, #28511c 35%, #154a51 65%);
+		}
+
+
+		.reveal table.advisory th, .reveal table.advisory td {
+			text-align: center;
+		}
+
+		.reveal table.advisory th {
+			background: black; color: white;
+			padding: 0;
+			border: none;
+		}
+
+		.reveal table.advisory td {
+			background: white; color: black;
+		}
+
+		li:before {
+			content: '😐' /*'●'*/;
+		}
+
+		li.good:before {
+			content: '☺';
+		}
+
+		li.bad:before {
+			content: '☹';
+		}
+
+		li {
+			list-style-type: none;
+		}
+
+		table.small,
+		tr.small {
+			font-size: 75%;
+		}
+
+		.reveal table th, .reveal table td {
+			border: none;
+		}
+
+		table.comparison {
+			border-collapse: separate;
+		}
+
+		table.comparison tr td {
+			width: 50%;
+			max-width: 40vw;
+			background-repeat: none;
+			position: relative;
+			padding: 0;
+			text-align: center;
+			vertical-align:middle;
+		}
+
+		table.comparison tr td pre {
+			margin:0;
+			width:100%;
+			max-width: 50vmin;
+		}
+
+
+		table.comparison tr td iframe {
+			width:40vmin;
+			height:40vmin;
+			max-height: 100%;
+			max-width:100%;
+		}
+
+		table.comparison tr td:first-child {
+/* 			background-color: #28511c; */
+			border: #4a9634 0.1em solid;
+/*			background: url('img/leaflet.svg');
+			background-size: contain;*/
+		}
+
+/* 		Leaflet transparent logo background */
+		table.comparison tr td:first-child:after {
+			content : "";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			background-image: url('img/leaflet.svg');
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-position: center center;
+			width: 100%;
+			height: 100%;
+			opacity : 0.15;
+			z-index: -1;
+		}
+
+
+		table.comparison tr td:last-child {
+/* 			background-color: #154a51; */
+			border: #1F6B75 0.1em solid;
+/* 			background: url('img/ol3.svg'); */
+/* 			background-size: contain; */
+		}
+
+/* 		OL3 transparent logo background */
+		table.comparison tr td:last-child:after {
+			content : "";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			background-image: url('img/ol3.svg');
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-position: center center;
+			width: 100%;
+			height: 100%;
+			opacity : 0.15;
+			z-index: -1;
+		}
+
+
+/* 		Counters for file sizes */
+		div.counter.ol3 {
+			display: inline-block;
+			width: 1em;
+			height: 1em;
+			background: url(img/ol3.svg);
+			background-size: cover;
+		}
+
+		div.counter.leaf {
+			display: inline-block;
+			width: 1em;
+			height: 1em;
+			background: url(img/leaflet.svg);
+			background-size: cover;
+		}
+
+
+		code {
+			background: rgba(80, 80, 80, 0.5);
+		}
+
+
+		.reveal pre code {
+			background: rgba(63, 63, 63, 0.9);
+			font-size: 1.2em;
+		}
+
+		.coffeescript .javascript, .javascript .xml, .tex .hljs-formula, .xml .javascript, .xml .vbscript, .xml .css, .xml .hljs-cdata {
+			opacity: 0.9;
+		}
+
+		</style>
+
+
+<!--    <link rel="stylesheet" href="leaflet-v1.0.0-beta1/leaflet.css" />
+    <script src="leaflet-v1.0.0-beta1/leaflet-src.js"></script>-->
+
+<!--    <link rel="stylesheet" href="ol3-v3.8.2/css/ol.css" type="text/css">
+    <script src="ol3-v3.8.2/build/ol-debug.js" type="text/javascript"></script>-->
+
+
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section data-background="linear-gradient(left, green, green 45%, blue 55%, blue)">
+					<section>
+						<h1><img class='logo' src='img/leaflet.svg'> vs <img class='logo' src='img/ol3.svg'></h1>
+						<p>
+							Based on the woes of <br>
+							Iván Sánchez Ortega, <a href="http://www.mazemap.no"><img class='logo' src='img/mazemap-logo.png'>MazeMap</a>
+						</p>
+
+					</section>
+					<section>
+						<img src='img/troymcclure.jpg'>
+						<p>You  might remember me from other FOSS4G talks such as</p>
+					</section>
+					<section>
+						<ul>
+							<li class='fragment good'> Another game of chess, professor Falken?
+							<li class='fragment good'> GeoGlobalDomination: The Musical
+							<li class='fragment good'> Up all night (to get mapping)
+						</ul>					
+					</section>
+					<section>
+						<img src='img/pointcloud-the-musical.jpg'>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3 style='font-size: 300%'>
+							<table class='advisory'>
+							<tr><th>PARENTAL</td></tr>
+							<tr><td>BIASED<br>OPINION</td></tr>
+							<tr><th>ADVISORY</td></tr>
+							</table>
+						</h3>
+					</section>
+
+					<section>
+						<h3>Timeline</h3>
+						<ul>
+							<li class='fragment'>2005: Created my own <code>&lt;canvas&gt;</code>-based map
+							<li class='fragment'>2014: Worked heavily with <img class='logo' src='img/ol2.svg'>
+							<li class='fragment'>2015-01: Start working for <img class='logo' src='img/mazemap-logo.png'>
+						</ul>
+					</section>
+
+					<section>
+						<img src='img/mazemap-web.png'>
+					</section>
+
+					<section>
+						<h3>Timeline</h3>
+						<ul>
+							<li class=''>2005: Created my own <code>&lt;canvas&gt;</code>-based map
+							<li class=''>2014: Worked heavily with <img class='logo' src='img/ol2.svg'>
+							<li class=''>2015-01: Start working for <img class='logo' src='img/mazemap-logo.png'>
+							<li class='fragment'>2015-03: Consider redoing the entire web app
+							<li class='fragment'>2015-04-23: Submit "<img class='logo' src='img/leaflet.svg'> vs <img class='logo' src='img/ol3.svg'>" talk
+							<li class='fragment'>2015-04-27: Became a <img class='logo' src='img/leaflet.svg'> core dev<br>
+							<img src='img/github-leaflet-invitation.png'>
+						</ul>
+					</section>
+				</section>
+
+
+
+
+
+
+<!-- 				Not about... -->
+				<section>
+					<section>
+						<h1>What this talk is NOT about</h1>
+					</section>
+
+					<section>
+						<h3>This talk is NOT about:</h3>
+						<p>Stamen's <a href='http://modestmaps.com/'>ModestMaps</a></p>
+						<ul>
+						<li class='good'>Minimalistic (10KB!) map library
+						<li class='bad'><em>Too</em> basic
+						<li class='bad'>No zoom animations
+						</ul>
+					</section>
+
+					<section>
+						<h3>This talk is NOT about:</h3>
+						<p>MapZen's <a href='https://tangrams.github.io/carousel/?crosshatch#15.9/63.4279/10.4035'>Tangram</a></p>
+						<ul>
+							<li class='good'>WebGL goodness
+							<li class='good'>Vector tiles
+							<li class='good'>Custom shaders
+							<li class='bad'>Not trivial to add own data
+						</ul>
+					</section>
+
+					<section>
+						<h3>This talk is NOT about:</h3>
+						<p>Mapbox's <a href='https://www.mapbox.com/blog/mapbox-gl/'>MapboxGL</a> (Based on <img class='logo' src='img/leaflet.svg'>)</p>
+
+						<ul>
+							<li class='good'>WebGL goodness
+							<li class='good'>Vector tiles
+							<li class='good'>Stable, well-engineered shaders
+							<li class='bad'>Depends too much on Mapbox
+						</ul>
+
+					</section>
+
+					<section>
+						<h3>This talk is NOT about:</h3>
+						<p>ESRI <a href='https://developers.arcgis.com/javascript/'>Javascript API</a></p>
+
+						<ul>
+							<li class='good'>Full 3D support (globe)
+							<li class='bad'>Not open source
+							<li class='bad'>Plays well with ESRI services, not so well with anything else
+						</ul>
+
+					</section>
+
+					<section>
+						<h3>This talk is NOT about:</h3>
+						<p>Google Maps API</p>
+
+						<ul>
+							<li class='good'>Full 3D support (globe)
+							<li class='bad'>Not open source
+							<li class='bad'>Depends too much on Google
+						</ul>
+
+					</section>
+					<section>
+						<h3>This talk is NOT about:</h3>
+						<p><a href='http://www.cartodb.com'>CartoDB</a></p>
+
+						<ul>
+							<li class='good'>Easy, gorgeous visualizations
+							<li class='bad'>Not a general-purpose mapping API
+						</ul>
+
+					</section>
+
+					<section>
+						<h3>This talk is NOT about:</h3>
+						<p><a href='https://www.jasondavies.com/maps/waterman-butterfly/'>D3</a></p>
+
+						<ul>
+							<li class='good'>Awesome data visualizations
+							<li class='good'>Extremely customizable
+							<li class='bad'>Not a general-purpose mapping API
+							<li class='bad'>Not trivial to add raster
+							<li class='bad'>Not trivial to use standard interactions
+						</ul>
+
+					</section>
+
+					<section>
+						<h3>This talk is NOT about:</h3>
+						<p><a href='http://www.cartodb.com'>ThreeJS</a></p>
+
+						<ul>
+							<li class='good'>WebGL goodness
+							<li class='good'>Used for indoor maps by MazeMap's competitors
+							<li class='bad'>A 3D API, not mapping API
+							<li class='bad'>Not trivial to add raster
+							<li class='bad'>Not trivial to use standard interactions
+							<li class='bad'>Uses 3D model formats, not GIS data formats
+						</ul>
+
+					</section>
+
+					<section>
+						<h3>This talk is NOT about:</h3>
+						<p>IndoorGML</p>
+
+						<ul>
+							<li class='bad'>No public IndoorGML implementations yet
+							<li class='bad'>No public IndoorGML showcase yet
+						</ul>
+
+					</section>
+
+				</section>
+
+
+
+<!-- Hello map -->
+				<section>
+					<section>
+						<p>Copy-paste simplest tutorials and set coordinates for Seoul</p>
+
+						<table class='comparison'><tr><td>
+							<pre><code data-trim style='font-size: 50%; line-height:100%' class='html'>
+
+&lt;!DOCTYPE html>
+&lt;html>
+  &lt;head>
+    <title>Leaflet Minimal Example</title>
+    &lt;link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+    &lt;script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+  &lt;/head>
+  &lt;body>
+    <div id="leafmap" style="width: 600px; height: 400px"></div>
+    &lt;script>
+      var map = L.map('leafmap').setView([37.152, 127.551], 8);
+      L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+      }).addTo(map);
+    </script>
+  &lt;/body>
+&lt;/html>
+
+							</code></pre>
+						</td><td>
+							<pre><code data-trim style='font-size: 50%; line-height:100%' class='html'>
+
+&lt;!doctype html>
+&lt;html lang="en">
+  &lt;head>
+    <title>OL3 minimal example</title>
+    &lt;link rel="stylesheet" href="http://openlayers.org/en/v3.8.2/css/ol.css" type="text/css">
+    &lt;script src="http://openlayers.org/en/v3.8.2/build/ol.js" type="text/javascript"></script>
+  &lt;/head>
+  &lt;body>
+    <div id="ol3map" style='width: 600px; height: 400px'></div>
+    &lt;script type="text/javascript">
+      var map = new ol.Map({
+        target: 'ol3map ',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.MapQuest({layer: 'osm'})
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.transform([37.152, 127.551], 'EPSG:4326', 'EPSG:3857'),
+          zoom: 8
+        })
+      });
+    </script>
+  &lt;/body>
+&lt;/html>
+							</code></pre>
+						</td></table>
+
+					</section>
+
+					<section>
+						<table class='comparison'><tr><td>
+							<iframe src='frames/leaflet1.html'></iframe>
+						</td><td>
+<!-- 							<iframe src='frames/ol3-1.html'></iframe> -->
+							<img src='img/ol3-error-1.png'>
+						</td></table>
+					</section>
+
+					<section>
+						<table class='comparison'><tr><td>
+							<img src='img/brent-rambo-approves.gif'>
+						</td><td>
+							<img src='img/fuuuuuuuuu.jpg' style='width: 35vh;'>
+						</td></table>
+					</section>
+
+					<section>
+						<table class='comparison'><tr><td>
+							<iframe src='frames/leaflet1.html'></iframe>
+						</td><td>
+							<iframe src='frames/ol3-1.html'></iframe>
+							<pre><code data-trim style='font-size: 50%; line-height:100%' class='html'>
+view: new ol.View({
+//  center: ol.proj.transform([37.152, 127.551], 'EPSG:4326', 'EPSG:3857'),
+    center: ol.proj.transform([127.551, 37.152], 'EPSG:4326', 'EPSG:3857'),
+    zoom: 8
+})
+
+							</code></pre>
+						</td></table>
+					</section>
+
+					<section>
+						<table class='comparison'><tr><td>
+							<p>What the docs say:</p>
+							<p><pre><code>map.setView(latlng, zoom)</code></pre></p>
+							<p>What you must use:</p>
+							<p><pre><code>lat/lng</code></pre></p>
+						</td><td>
+							<p>What the docs say:</p>
+							<img src='img/ol3-latlng-docs.png' style='width: 35vh;'>
+							<p>What you must use:</p>
+							<p><pre><code>lon/lat</code></pre></p>
+						</td></table>
+					</section>
+
+					<section>
+						<table class='comparison'><tr><td>
+							<img src='img/lol-guy.jpg' style='width: 25vh;'>
+						</td><td>
+							<img src='img/fuuuuuuuuu.jpg' style='width: 35vh;'>
+						</td></table>
+					</section>
+
+					<section>
+						<h3>Newbie friendliness</h3>
+						<table class='comparison'><tr><td>
+							<ul><li class='good'>Friendly for web professionals who don't care about <code>latLng</code> vs <code>lngLat</code>.
+							<li>Makes assumptions for the user.
+							</ul>
+						</td><td>
+							<ul><li class='bad'>Kinda need to be a GIS professional who know about SRSs.
+							<li>Makes <em>some</em> assumptions.
+							</ul>
+						</td></table>
+					</section>
+
+				</section>
+
+
+
+
+				<section>
+					<section>
+						<h3>Javascript</h3>
+						<p>Size of minified JS files</p>
+						<table class='comparison'><tr><td>
+							<h2>126.5KB</h2>
+							<div style='font-size: 200%'>
+								<div style='display: inline-block; width: 1em; height: 1em; background: 	url(img/leaflet.svg); background-size: cover;'></div>
+							</div>
+							</td><td>
+							<h2>465.3KB</h2>
+							<div style='font-size: 200%'>
+								<div style='display: inline-block; width: 1em; height: 1em; background: url(img/ol3.svg); background-size: cover;'></div>
+								<div style='display: inline-block; width: 1em; height: 1em; background: url(img/ol3.svg); background-size: cover;'></div>
+								<div style='display: inline-block; width: 1em; height: 1em; background: url(img/ol3.svg); background-size: cover;'></div>
+								<div style='display: inline-block; width: 0.67em; height: 1em; background: url(img/ol3.svg); background-size: cover;'></div>
+							</div>
+						</td></table>
+
+						<p>Number of classes/namespaces</p>
+						<table class='comparison'><tr><td>
+							<h2>52</h2>
+							<div style='font-size: 200%'>
+								<div style='display: inline-block; width: 1em; height: 1em; background: 	url(img/leaflet.svg); background-size: cover;'></div>
+							</div>
+							</td><td>
+							<h2>163</h2>
+							<div style='font-size: 200%'>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3' style='width: 0.13em; height'></div>
+							</div>
+						</td></table>
+					</section>
+
+
+					<section>
+						<table class='comparison'><tr><td>
+							<img src='img/leaflet-plugins-header.png' style='width: 40vh;'>
+						</td><td>
+							<img src='img/openlayers3-custombuilds.png' style='width: 40vh;'>
+						</td><tr class='fragment'><td>
+							<ul>
+							<li class='bad'>Little built-in stuff
+							<li class='good'>Lots of plugins (200+)
+							</ul>
+						</td><td>
+							<ul>
+							<li class='good'>Lots of built-in stuff
+							<li class='bad'>Very few plugins <nobr><small>(<code>ol3-cesium</code>)</small></nobr>
+							</ul>
+						</td></tr><tr class='fragment'><td>
+							<ul>
+							<li class='good'>Leaflet.Omnivore (data formats)
+							<li class='good'>Leaflet.draw
+							<li class='good'>Leaflet.markercluster
+							<li class='good'>Leaflet.MapboxVectorTile
+							</ul>
+						</td><td>
+							<ul>
+							<li class='good'>Built-in
+							</ul>
+
+						</td></table>
+					</section>
+
+
+					<section>
+						<table class='comparison'><tr><td>
+							<ul>
+							<li class='good'>Can be made beefier...
+							<li class='fragment good'>...with any toolchain...<p>
+								<img class='logo' src='img/brunch-logo-napkin.svg'>
+								<img class='logo' src='img/grunt-logo.svg'>
+								<img class='logo' src='img/gulp-logo.svg'>
+								<img class='logo' src='img/bower-logo.svg'>
+								<img class='logo' src='img/requirejs.jpg'>
+								<img class='logo' src='img/Browserify.svg'>
+								</p>
+							<li class='fragment good'>...or with specific integration tools
+								<img class='logo' src='img/AngularJS-Shield-medium.png'>
+								<img class='logo' src='img/reactjs.png'>
+								<img class='logo' src='img/polymer.jpg'>
+							</li>
+							</ul>
+						</td><td>
+							<ul>
+							<li class='good'>Can be made skinnier...
+							<li class='fragment bad'>...only with the <img src='img/closure.png' class='logo'>Closure compiler...
+							<li class='fragment'>...which <em>might</em> fit within your toolchain
+							<li class='fragment bad'>...but most integration tools
+								<img class='logo' src='img/AngularJS-Shield-medium.png'>
+								<img class='logo' src='img/reactjs.png'>
+								<img class='logo' src='img/polymer.jpg'> or toolchains won't be able to slim it down without help
+							</ul>
+						</td></table>
+					</section>
+
+
+					<section>
+					<h3>Speaking of <img src='img/closure.png' class='logo'>...</h3>
+					Size of <em>unminified</em> files:
+						<table class='comparison'><tr><td>
+							<code>leaflet-src.js</code> <h3>223.6KB</h3>
+							<div style='font-size: 200%'>
+								<div class='counter leaf'></div>
+							</div>
+							</td><td>
+							<code>ol3-debug.js</code><h3>3.5MB</h3>
+							<div style='font-size: 200%'>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3'></div>
+								<div class='counter ol3' style='width: 0.21em;'></div>
+							</div>
+						</td></table>
+
+					</section>
+
+
+					<section>
+						<pre><code class='js'>
+/**
+ * @const
+ * @type {number}
+ */
+goog.webgl.ZERO = 0;
+
+
+/**
+ * @const
+ * @type {number}
+ */
+goog.webgl.ONE = 1;
+						</code></pre>
+					</section>
+
+				</section>
+
+
+
+
+
+				<section>
+					<section>
+						<h3>Coding patterns</h3>
+						<table class='comparison'><tr><td>
+							<pre><code data-trim style='font-size: 50%; line-height:100%' class='js'>
+var map = L.map('leafmap').setView([37.152, 127.551], 8);
+L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+}).addTo(map);
+							</code></pre>
+						</td><td>
+							<pre><code data-trim style='font-size: 50%; line-height:100%' class='js'>
+var map = new ol.Map({
+	target: 'ol3map ',
+	layers: [
+		new ol.layer.Tile({
+			source: new ol.source.MapQuest({layer: 'osm'})
+		})
+	],
+	view: new ol.View({
+		center: ol.proj.transform([37.152, 127.551], 'EPSG:4326', 'EPSG:3857'),
+		zoom: 8
+	})
+});
+							</code></pre>
+						</td></tr><tr class='fragment'><td>
+							<ul>
+								<li>Uses 2 classes (decorators)
+								<li>Object factories
+								<li class='good'>1 level of indentation
+							</ul>
+						</td><td>
+							<ul>
+								<li>Uses 5 classes
+								<li>Class constructors
+								<li class='bad'>3 level of indentation
+							</ul>
+
+							<pre><code data-trim style='font-size: 50%; line-height:100%' class='js'>
+							ol.proj.transform( ol.geometry.point([37.152, 127.551], 'EPSG:4326'), 'EPSG:3857'),
+							</code></pre>
+						</td></tr>
+						</table>
+					</section>
+
+
+
+					<section>
+						<h3>Coding patterns</h3>
+						<table class='comparison'><tr><td>
+							<pre><code data-trim style='font-size: 50%; line-height:100%' class='js'>
+$.ajax('data/geojson/line-samples.geojson', {}, function(json){
+	var vectorLayer = L.geoJson(json, {
+		color: blue,
+		weight: 1,
+		fillColor: "rgba(0, 0, 255, 0.1)"
+	});
+}):
+							</code></pre>
+						</td><td>
+							<pre><code data-trim style='font-size: 50%; line-height:100%' class='js'>
+var vectorLines = new ol.layer.Vector({
+	source: new ol.source.Vector({
+		url: 'data/geojson/line-samples.geojson',
+		format: new ol.format.GeoJSON()
+	}),
+	style: [
+		new ol.style.Style({
+			stroke: new ol.style.Stroke({
+				color: 'blue',
+				width: 1
+			}),
+			fill: new ol.style.Fill({
+				color: 'rgba(0, 0, 255, 0.1)'
+			})
+		});
+	]
+});
+							</code></pre>
+						</td></tr><tr class='fragment small'><td>
+							<ul>
+								<li>Uses 1 classes
+								<li>Decorator/delegator pattern
+								<li class='bad'>Doesn't have XHR capabilities (but there's the "Leaflet Ajax" plugin)
+								<li class='bad'>Doesn't have text rendering (but there's the "Leaflet Label" plugin)
+								<li class='bad'>Doesn't allow multiple symbolizers
+							</ul>
+						</td><td>
+							<ul>
+								<li>Uses 6 classes
+								<li>MVC (separates feature layer, source, format, style)
+								<li class='good'>Multiple symbolizers
+							</ul>
+
+						</td></tr>
+						</table>
+					</section>
+
+					<section>
+						<h3>Everything is...</h3>
+						<table class='comparison'><tr><td>
+							A wrapper over HTML elements
+						</td><td>
+							A model of "classic" GIS
+						</td></tr><tr class='fragment'><td>
+							<code>L.GridLayer</code> is a grid of <code>&lt;div&gt;</code>s or <code>&lt;canvas&gt;</code>s or <code>&lt;img&gt;</code>s or even <code>&lt;video&gt;</code>s.
+						</td><td>
+							<code>ol.Feature</code> has a <code>ol.geom</code> which can be a <code>ol.geom.LinearRing</code> or <code>ol.geom.MultiPoint</code> or any Simple Features Specification type.
+						</td></tr></table>
+					</section>
+
+				</section>
+
+
+
+
+				<section>
+					<section>
+						<h3>Documentation</h3>
+						<table class='comparison fragment'><tr><td>
+							<ul>
+							<li class='good'>Tutorials that work
+							<li class='bad'>5 examples
+							<li class='good'>Concise API Ref
+							</ul>
+						</td><td>
+							<ul>
+							<li class='bad'>Verbose tutorials (that don't work)
+							<li class='good'>125 examples
+							<li class='bad'>Verbose API ref
+							</ul>
+						</td></tr></table>
+						<h4 class='fragment'>↑ Learning curve, right there ↑</h4>
+						<table class='comparison fragment'><tr><td>
+							<ul><li class='bad'><strong>Manually</strong> maintained HTML
+							<li class='bad'>Easily out of sync
+							<li class='bad'>Not consistent across plugins
+							</ul>
+						</td><td>
+							<ul><li class='good'>Autogenerated <code>JSDoc</code>
+							<li class='good'>Always in sync
+							<li class='good'>Consistent
+							</ul>
+						</td></table>
+					</section>
+
+					<section>
+						<h3>Documentation</h3>
+						<table class='comparison'><tr><td>
+							<img src='img/fuuuuuuuuu.jpg' style='width: 35vh;'>
+						</td><td>
+							<img src='img/lol-guy.jpg' style='width: 25vh;'>
+						</td></table>
+					</section>
+
+					<section>
+						<p><strong><a href='https://github.com/IvanSanchez/Leafdoc'>https://github.com/IvanSanchez/Leafdoc</a></strong></p>
+						<img src='img/challenge-accepted.png' style='width: 40vh;'>
+					</section>
+
+					<section>
+						<h3>Documentation</h3>
+						<table class='comparison small'><tr><td>
+							<h3>🍂doc</h3>
+							<ul><li class='good'>Groups methods by ancestor.</ul>
+						</td><td>
+							<h3>JSdoc</h3>
+							<ul><li class='bad'>Methods are alphabetical, regardless of ancestor.</ul>
+						</td>
+						<tr><td>
+							<img src='img/leafdoc-inheritances.png'>
+							<a href='http://ivansanchez.github.io/Leafdoc/Leaflet-docs.html#rectangle-method' target=_blank>Demo!</a>
+						</td><td>
+							<img src='img/openlayers-inheritances.png'>
+						</td>
+						</table>
+					</section>
+				</section>
+
+
+
+
+				<section>
+					<section>
+						<h3>Something important for indoor...</h3>
+
+							<img src='img/IMG_20150904_162807.jpg' style='height:50vh'>
+							<img src='img/IMG_20150904_162829.jpg' style='height:50vh'>
+
+					</section>
+					<section>
+						<h3>Something important for indoor...</h3>
+
+							<img src='img/IMG_20150915_223708.jpg' style='height:40vh'>
+							<img src='img/IMG_20150915_223841.jpg' style='height:40vh'>
+
+					</section>
+					<section>
+						<h3>Rotation</h3>
+						<table class='comparison'><tr><td>
+							<img src='img/fuuuuuuuuu.jpg' style='width: 35vh;'>
+						</td><td>
+							<img src='img/lol-guy.jpg' style='width: 25vh;'>
+						</td></table>
+					</section>
+
+					<section>
+
+						<p><strong><a href='https://github.com/Leaflet/Leaflet/tree/rotate'>https://github.com/Leaflet/Leaflet/tree/rotate</a></strong></p>
+
+						<img src='img/challenge-accepted.png' style='width: 40vh;'>
+
+					</section>
+
+					<section>
+						<h3>Rotation</h3>
+						<table class='comparison'><tr><td>
+							<iframe src='frames/leaflet-rotate.html'></iframe>
+						</td><td>
+							<iframe src='frames/ol3-rotate.html'></iframe>
+						</td></table>
+					</section>
+
+				</section>
+
+
+
+
+
+
+				<section>
+					<section>
+						<h3>3D</h3>
+						<table class='comparison fragment'><tr><td>
+							<img src='img/fuuuuuuuuu.jpg' style='width: 35vh;'>
+						</td><td>
+							<img src='img/fuuuuuuuuu.jpg' style='width: 35vh;'>
+						</td></table>
+					</section>
+
+					<section>
+						<table class='comparison small'><tr><td>
+							<ul><li class='good'><code>L.LatLng</code> has altitude.
+							<li class='bad'>No perspective support of any kind (suggestion: <code>map.setTilt()</code>).
+							<li class='bad'>No WebGL at all
+							<li class='bad'>No renderer support for altitude
+							</ul>
+						</td><td>
+							<ul><li class='good'><code>ol.geom.GeometryLayout</code> can be <code>XY</code>, <code>XYZ</code>, <code>XYM</code>, <code>XYZM</code>.
+							<li class='bad'>No perspective support of any kind (suggestion: <code>ol.View.tilt</code>).
+							<li class='good'>Some WebGL support
+							<li class='bad'>No renderer support for Z
+							</ul>
+						</td></table>
+					</section>
+
+
+					<section>
+						<h3>Cesium for OpenLayers</h3>
+						<div><img src='img/ol3-cesium-files.png' class='fragment'></div>
+<!-- 						<div><img src='img/ol3-cesium-code.png' class='fragment'></div> -->
+						<pre class='fragment'><code>&lt;script src='../ol3-ol-debug.js'&gt;&lt;/script&gt;
+&lt;script src='../Cesium/Cesium.js'&gt;&lt;/script&gt;
+&lt;script src='../ol3cesium-debug.js'&gt;&lt;/script&gt;</code></pre>
+					</section>
+
+					<section>
+						<h3>Cesium for OpenLayers</h3>
+						<div><img src='img/ol3-cesium-error.png' width=200% height=200%></div>
+						<div class='fragment'><ul><li class='bad'>Closure clusterf**k</div></ul>
+					</section>
+
+					<section>
+						<h3>Cesium for OpenLayers</h3>
+						<ul>
+						<li class='good'>3D that works
+						<li class='bad'>No WMS layers rendered as planes at a given height over the geoid
+						<li class='bad'>High cost to start developing
+						<li class='bad'>Big files (not viable for deployment in mobiles)
+						</ul>
+					</section>
+
+					<section>
+						<h3>3D</h3>
+						<table class='comparison fragment'><tr><td>
+							<p><a href='https://github.com/IvanSanchez/Leaflet.gl'>https://github.com/IvanSanchez/Leaflet.gl</a></p>
+							<img src='img/challenge-accepted.png' style='width: 35vh;'>
+							
+							<p><a href='Leaflet.gl/examples/rotatetilt.html' target=_blank>Demo!</a></p>
+						</td><td>
+							<p><h3>Y &nbsp; U &nbsp; NO &nbsp; DO</h3></p>
+							<img src='img/y-u-no.jpg' style='width: 35vh;'>
+							<p>EXACTLY WAT I NEED</p>
+						</td></table>
+					</section>
+
+
+				</section>
+
+
+
+
+
+				<section>
+					<section>
+						<h3>What's best for <em>our</em> indoor maps?</h3>
+
+						<table class='comparison fragment'>
+						<tr><td>
+							<ul>
+								<li class='bad'>No rotation
+								<li class='bad'>No 3D
+							</ul>
+						</td><td>
+							<ul>
+								<li class='good'>Rotation
+								<li class='good'>3D via Cesium
+							</ul>
+						</td></tr>
+						</table>
+						<div class='fragment'>
+						↑ The «Maybe we should switch to OL3» phase ↑
+						</div>
+						<table class='comparison fragment'>
+						<tr><td>
+							<ul>
+								<li class='good'>Docs nice to read
+								<li class='good'>Low barrier to develop (for me)
+								<li class='good'>Low cost of integration (for me)
+								<li class='good'>Still supports IE8
+							</ul>
+						</td><td>
+							<ul>
+								<li class='bad'>Docs not nice to read
+								<li class='bad'>Higher barrier to develop (for me)
+								<li class='bad'>Higher cost of integration (for me)
+								<li class='bad'>No support for IE8
+							</ul>
+						</td></tr>
+						</table>
+						<div class='fragment'>
+						↑ The «Nah!» phase ↑
+						</div>
+					</section>
+
+					<section>
+						<h3>Some signs you might like OL3 better...</h3>
+
+						<table class='comparison fragment'>
+						<tr><td>
+							<ul>
+								<li class='bad'>Non-GIS <code>Layer</code> model
+								<li class='bad'>Non-OGC <code>Geometry</code> model
+								<li class='bad'>Clunky <code>LatLng</code> CRS
+							</ul>
+						</td><td>
+							<ul>
+								<li class='good'>Symbology
+								<li class='good'>Built-in OGC standards
+								<li class='good'>Raster events &amp; manipulation
+								<li class='good'>Raster reprojection
+							</ul>
+						</td></tr>
+						</table>
+						
+					</section>
+
+				</section>
+
+
+
+
+				<section>
+					<section>
+						<h3>OK, so what should I use?</h3>
+					</section>
+
+					<section>
+						<table style='width:100%'>
+						<tr><td style='text-align: left'>
+							← Web
+						</td><td style='text-align: right'>
+							GIS →
+						</td></tr>
+						<tr><td style='text-align: left'>
+							← DOM
+						</td><td style='text-align: right'>
+							MVC →
+						</td></tr>
+						<tr><td colspan=2>
+							<hr style='border: 1vmin solid #cccccc'/>
+						</td></tr>
+						<tr class='fragment'><td>
+							<img class='logo' src='img/leaflet.svg' style='width: 25vmin; height: 25vmin'>
+						</td><td style='text-align: right'>
+							<img class='logo' src='img/ol3.svg' style='width: 25vmin; height: 25vmin'>
+						</td></tr>
+						</table>
+					</section>
+
+				</section>
+
+
+
+				<section>
+					<section>
+						<h1>P.S.</h1>
+						<h3 class='fragment'>F**k you, Internet Explorer</h3>
+					</section>
+				</section>
+
+
+
+
+				<section>
+					<section>
+						<div style='font-size: 20vmin; text-align: center;'>Fin.</div>
+					</section>
+					<section>
+						<div style='font-size: 40vmin; text-align: center;'>¿?</div>
+					</section>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

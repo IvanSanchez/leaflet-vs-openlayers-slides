@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaflet Minimal Example</title>
+    <link rel="stylesheet" href="../leaflet-v1.0.0-beta1/leaflet.css" />
+    <script src="../leaflet-v1.0.0-beta1/leaflet-src.js"></script>
+  </head>
+  <body style='margin:0; padding:0;'>
+    <div id="leafmap" style="width: 100vw; height: 100vh;"></div>
+    <script>
+      var map = L.map('leafmap').setView([37.152, 127.551], 8);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+      }).addTo(map);
+    </script>
+  </body>
+</html>
