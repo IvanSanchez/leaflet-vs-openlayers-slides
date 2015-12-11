@@ -1,7 +1,7 @@
 
 # "Leaflet vs Openlayers" slides
 
-Clone and open up `slides.html` in any decent web browser. 
+Watch the slides on [http://ivansanchez.github.io/leaflet-vs-openlayers-slides/](http://ivansanchez.github.io/leaflet-vs-openlayers-slides/), or clone this repository and open up `slides.html` in any decent web browser. 
 
 The slides are organized in sections (arrow key left/right). To see slides within a section, use arrow key up/down.
 
